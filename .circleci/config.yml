@@ -17,8 +17,9 @@ jobs:
       - run:
           name: build application
           command: |
+            ls
             cd scyrbe_frontend
-            echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
             docker build -t badmusanu/hng-task4-frontend .
             docker push badmusanu/hng-task4-frontend
             cd ../backend/app
@@ -28,10 +29,13 @@ jobs:
       machine:
         enabled: true
       steps:
+        - add_ssh_keys:
+            fingerprints:
+              - "58:b8:5d:b4:73:42:f7:4f:c7:0e:c1:c5:7a:02:a4:7d"
         - checkout
         - run:
             name: Deploy over SSH
-            command: ssh -p your_port_number your_user@your_host "cd ../path/to/your/project; git pull; pm2 start hello_sts";
+            command: ssh $SSH_USER@$SSH_HOST "docker-compose stop; docker-compose rm -f; docker-compose pull; docker-compose up -d";
 
 workflows:
   version: 2
