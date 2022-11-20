@@ -18,7 +18,7 @@ jobs:
           name: build application
           command: |
             ls
-            cd scyrbe_frontend
+            cd scrybe_frontend
             echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
             docker build -t badmusanu/hng-task4-frontend .
             docker push badmusanu/hng-task4-frontend
@@ -35,7 +35,7 @@ jobs:
         - checkout
         - run:
             name: Deploy over SSH
-            command: ssh $SSH_USER@$SSH_HOST "docker-compose stop; docker-compose rm -f; docker-compose pull; docker-compose up -d";
+            command: ssh $SSH_USER@$SSH_HOST "ls; docker-compose stop; docker-compose rm -f; docker-compose pull; docker-compose up -d";
 
 workflows:
   version: 2
